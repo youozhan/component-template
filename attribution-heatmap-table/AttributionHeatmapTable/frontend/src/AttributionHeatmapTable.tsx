@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ReactText } from "react"
 import { range, zipObject } from "lodash"
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import { SelectionState, IntegratedSelection } from "@devexpress/dx-react-grid"
 import { SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
 import {
@@ -101,9 +102,40 @@ const AttributionHeatmapTable: React.FC<ComponentProps> = props => {
   const columns = tableRows({ isHeader: true, table: props.args.data })
   const rows = tableRows({ isHeader: false, table: props.args.data })
 
+  const [columnsToFormat] = useState(['Age', 'Duration', 'Credit Amount', 'Score'])
+
+  const CustomFormat = (cell: any) => {
+    // get the conditional formatting data frame
+    const fmtTable = props.args.fmt_data.dataTable.toArray()
+
+    // get the row and column index of the current cell
+    // NOT Ideal...
+    const rowIdx = cell.row[""],
+        colIdx = columns[0].indexOf(cell.column.name)-1
+
+    const value = fmtTable[rowIdx][colIdx]
+
+    if (value > 0) {
+        const mystyle = {
+            backgroundColor: "DodgerBlue",
+            padding: "10px",
+        }
+
+        return <span style={mystyle}> {cell.value} - fmt:{value.toFixed(2)} </span>
+    } else {
+        const mystyle2 = {
+            backgroundColor: "darkGreen",
+            padding: "10px",
+        }
+
+        return <span style={mystyle2}> {cell.value} - fmt:{value.toFixed(2)} </span>
+    }
+  }
+
   return (
     <ThemeProvider theme={darkTheme}>
         <Grid rows={formatRows(rows, columns)} columns={formatColumns(columns)}>
+          <DataTypeProvider for={columnsToFormat} formatterComponent={CustomFormat} />
           <SelectionState
             selection={selection}
             onSelectionChange={handleSelectionChange}
