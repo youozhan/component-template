@@ -90,7 +90,7 @@ const formatColumns = (columns: string[][]) =>
 
 const AttributionHeatmapTable: React.FC<ComponentProps> = props => {
   useEffect(() => {
-    Streamlit.setFrameHeight(350)
+    Streamlit.setFrameHeight(400)
   })
 
   const handleSelectionChange = (value: ReactText[]): void => {
@@ -115,20 +115,51 @@ const AttributionHeatmapTable: React.FC<ComponentProps> = props => {
 
     const value = fmtTable[rowIdx][colIdx]
 
-    if (value > 0) {
-        const mystyle = {
-            backgroundColor: "DodgerBlue",
+    if (value <= 1 && value > 0.6) {
+        const pos_style1 = {
+            backgroundColor: "#B8C7F9",
             padding: "10px",
+            display: "inline-block",
+            width: "100px",
         }
 
-        return <span style={mystyle}> {cell.value} - fmt:{value.toFixed(2)} </span>
+        return <span style={pos_style1}> {cell.value}</span>
+    } else if (value <= 0.6 && value > 0.2){
+        const pos_style2 = {
+            backgroundColor: "#707EA0",
+            padding: "10px",
+            display: "inline-block",
+            width: "100px",
+        }
+
+        return <span style={pos_style2}> {cell.value}</span>
+    } else if (value <= -0.2 && value > -0.6){
+        const neg_style1 = {
+            backgroundColor: "#1A2230",
+            padding: "10px",
+            display: "inline-block",
+            width: "100px",
+        }
+
+        return <span style={neg_style1}> {cell.value}</span>
+    } else if (value <= -0.6 && value > -1){
+        const neg_style2 = {
+            backgroundColor: "#926580",
+            padding: "10px",
+            display: "inline-block",
+            width: "100px",
+        }
+
+        return <span style={neg_style2}> {cell.value}</span>
     } else {
-        const mystyle2 = {
-            backgroundColor: "darkGreen",
+        const default_style = {
+            backgroundColor: "#E78CAE",
             padding: "10px",
+            display: "inline-block",
+            width: "100px",
         }
 
-        return <span style={mystyle2}> {cell.value} - fmt:{value.toFixed(2)} </span>
+        return <span style={default_style}> {cell.value}</span>
     }
   }
 
@@ -141,9 +172,7 @@ const AttributionHeatmapTable: React.FC<ComponentProps> = props => {
             onSelectionChange={handleSelectionChange}
           />
           <IntegratedSelection />
-          <SortingState
-            defaultSorting={[{ columnName: 'city', direction: 'asc' }]}
-          />
+          <SortingState />
           <IntegratedSorting />
           <VirtualTable />
           <TableHeaderRow showSortingControls />

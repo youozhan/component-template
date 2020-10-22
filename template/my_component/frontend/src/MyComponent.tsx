@@ -21,17 +21,44 @@ class MyComponent extends StreamlitComponentBase<State> {
     // via `this.props.args`. Here, we access the "name" arg.
     const name = this.props.args["name"]
 
+    const spanStyle = {
+        backgroundColor: 'rgba(39, 51, 70, 1)',
+        color: 'white',
+        display: 'flex',
+        flexDirection: 'row' as "row",
+        "justify-content": "flex-end",
+    }
+
+    const buttonStyle = {
+        "background-image": "linear-gradient(257.59deg, #E78CAE 46.23%, #BDCDFF 104.88%)",
+        "border-radius": '100px',
+        border: "0px solid transparent",
+        padding: '0 2rem 0 2rem',
+        margin: '0 1rem 0 0',
+    }
+
+    const linkStyle = {
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        color: 'white',
+        "border-radius": '100px',
+        border: "0px solid transparent",
+        padding: '0 2rem 0 2rem',
+        margin: '0 1rem 0 0',
+    }
+
     // Show a button and some text.
     // When the button is clicked, we'll increment our "numClicks" state
     // variable, and send its new value back to Streamlit, where it'll
     // be available to the Python program.
     return (
-      <span>
-        Hello, {name}! &nbsp;
-        <button onClick={this.onClicked} disabled={this.props.disabled}>
-          Click Me!
+      <div style={spanStyle}>
+        <button onClick={this.onClicked} disabled={this.props.disabled} style={buttonStyle}>
+          Predict
         </button>
-      </span>
+        <button style={linkStyle}>
+          Cancel
+        </button>
+      </div>
     )
   }
 

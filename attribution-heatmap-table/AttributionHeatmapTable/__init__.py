@@ -21,12 +21,11 @@ def attribution_heatmap_table(data, fmt_data, key=None):
     return _attribution_heatmap_table(data=data, fmt_data=fmt_data, default=[], key=key)
 
 if not _RELEASE:
-    # scores = np.random.random(5)
-    scores = [0.266161, 0.077638, 00.072882, 0.292981, 0.534820]
+    scores = [0.26, 0.77, 0.82, 0.29, 0.53]
     attributions = {
-        "Age": [0.266161, 0.077638, 00.072882, 0.292981, 0.534820],
-        "Duration": [0.266161, 0.077638, 00.072882, 0.292981, 0.534820],
-        "Credit Amount": [0.266161, 0.077638, 00.072882, 0.292981, 0.534820],
+        "Age": [-0.26, 0.29, -0.82, 0.77, 0.53],
+        "Duration": [0.26, 0.82, 0.82, -0.25, -0.53],
+        "Credit Amount": [-0.26, -0.77, 0.77, -0.29, 0.53],
         "Score": scores,
 
     }
